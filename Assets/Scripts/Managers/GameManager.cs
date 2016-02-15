@@ -13,8 +13,9 @@ namespace Complete
         public CameraControl m_CameraControl;       // Reference to the CameraControl script for control during different phases.
         public Text m_MessageText;                  // Reference to the overlay Text to display winning text, etc.
         public GameObject m_TankPrefab;             // Reference to the prefab the players will control.
+		public GameObject m_TankBotPrefab;          // Reference to the prefab for the Bots.
         public TankManager[] m_Tanks;               // A collection of managers for enabling and disabling different aspects of the tanks.
-
+		public TankBotManager[] m_TankBots;			// A collection of managers for the bots.
         
         private int m_RoundNumber;                  // Which round the game is currently on.
         private WaitForSeconds m_StartWait;         // Used to have a delay whilst the round starts.
@@ -50,6 +51,16 @@ namespace Complete
             }
         }
 
+
+		private void SpawnAllBot()
+		{
+			for (int i = 0; i < m_TankBots.Length; i++)
+			{
+				m_TankBots[i].m_Instance = Instantiate(m_TankBotPrefab, m_TankBots[i].m_SpawnPoint.position, m_TankBots[i].m_SpawnPoint.rotation) as GameObject;
+				m_TankBots [i].m_BotNumber = i + 1;
+				m_TankBots[i].Setup();
+			}
+		}
 
         private void SetCameraTargets()
         {
